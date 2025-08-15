@@ -1,0 +1,24 @@
+sudo kubeadm reset
+
+# Remove all packages related to Kubernetes
+sudo apt remove -y kubeadm kubectl kubelet kubernetes-cni 
+sudo apt purge -y kube*
+
+
+# Remove parts
+
+sudo apt autoremove -y
+
+sudo apt-get purge kube*
+sudo rm -rf /etc/kubernetes
+sudo apt-get clean
+
+# Remove all folder associated to kubernetes, etcd, and docker
+sudo rm -rf ~/.kube
+sudo rm -rf /etc/cni /etc/kubernetes /var/lib/dockershim /var/lib/etcd /var/lib/kubelet /var/lib/etcd2/ /var/run/kubernetes ~/.kube/* 
+
+# Clear the iptables
+sudo iptables -F && iptables -X
+sudo iptables -t nat -F && iptables -t nat -X
+sudo iptables -t raw -F && iptables -t raw -X
+sudo iptables -t mangle -F && iptables -t mangle -X
