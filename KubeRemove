@@ -4,12 +4,10 @@ sudo kubeadm reset
 # Remove all packages related to Kubernetes
 sudo apt remove -y kubeadm kubectl kubelet kubernetes-cni containerd
 sudo apt purge -y containerd kube* 
+sudo apt-get purge kube*
 
 # Remove parts
-
 sudo apt autoremove -y
-
-sudo apt-get purge kube*
 sudo rm -rf /etc/kubernetes
 sudo apt-get clean
 
