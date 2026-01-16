@@ -20,3 +20,12 @@ sudo iptables -F && iptables -X
 sudo iptables -t nat -F && iptables -t nat -X
 sudo iptables -t raw -F && iptables -t raw -X
 sudo iptables -t mangle -F && iptables -t mangle -X
+
+# Reset kubeadm
+sudo kubeadm reset -f
+
+# setting up and restarting for containerd
+sudo rm -f /etc/containerd/config.toml
+containerd config default | sudo tee /etc/containerd/config.toml
+sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
+sudo systemctl restart containerd
