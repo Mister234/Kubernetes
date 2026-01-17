@@ -1,10 +1,14 @@
 sudo kubeadm reset
 
+# Stop service
+sudo systemctl stop containerd
+sudo systemctl stop kubelet
+
 
 # Remove all packages related to Kubernetes
-sudo apt remove -y kubeadm kubectl kubelet kubernetes-cni containerd
-sudo apt purge -y containerd kube* 
-sudo apt-get purge kube*
+sudo apt remove -y kubeadm kubectl kubelet kubernetes-cni containerd.io
+sudo apt purge -y kube* containerd.io docker-ce-cli docker-ce docker-engine docker.io containerd runc -y
+
 
 # Remove parts
 sudo apt autoremove -y
@@ -14,6 +18,8 @@ sudo apt-get clean
 # Remove all folder associated to kubernetes, etcd, and docker
 sudo rm -rf ~/.kube
 sudo rm -rf /etc/cni /etc/kubernetes /var/lib/dockershim /var/lib/etcd /var/lib/kubelet /var/lib/etcd2/ /var/run/kubernetes ~/.kube/* 
+sudo rm -rf /var/lib/containerd /var/lib/docker /etc/containerd /etc/docker
+
 
 # Clear the iptables
 sudo iptables -F && iptables -X
