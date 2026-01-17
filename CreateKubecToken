@@ -1,0 +1,2 @@
+# Create token
+kubectl token create --print-join-command
