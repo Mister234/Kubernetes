@@ -1,2 +1,2 @@
 # Create token
-kubectl token create --print-join-command
+kubeadm token create --print-join-command
