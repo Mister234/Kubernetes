@@ -27,7 +27,7 @@ sudo iptables -t nat -F && iptables -t nat -X
 sudo iptables -t raw -F && iptables -t raw -X
 sudo iptables -t mangle -F && iptables -t mangle -X
 
-# Reset kubeadm
+# Reset kubeadm cluster
 sudo kubeadm reset -f
 
 # setting up and restarting for containerd
