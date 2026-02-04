@@ -1,0 +1,40 @@
+# a template with default settings
+kubeadm config print init-defaults > kubeadm-config.yaml
+
+# Add a section to a file kubeadm-config.yaml
+apiServer:
+  certSANs:
+  - "84.252.134.51"  # External IP
+  - "10.130.0.18"   # Internal IP
+  - "10.96.0.1"     # Kubernetes service IP (usually like this)
+  - "127.0.0.1"     # Local host
+  - "localhost"
+
+# Delete old files (required, otherwise kubeadm may not overwrite them)
+rm /etc/kubernetes/pki/apiserver.{crt,key}
+
+# New cert
+kubeadm init phase certs all --config kubeadm-config.yaml
+
+# download the settings that the cluster is currently working with
+kubectl get configmap kubeadm-config -n kube-system -o jsonpath='{.data.ClusterConfiguration}' > kubeadm.yaml
+
+# We find the ID of the api server container
+CONTAINER_ID=$(crictl ps --name kube-apiserver -q)
+
+# Restart it (delete it, and it will lift itself up)
+crictl stop $CONTAINER_ID
+crictl rm $CONTAINER_ID
+
+# generate a new admin.conf
+kubeadm init phase kubeconfig admin --config kubeadm-config.yaml
+
+# Updating all kubeconfig system files
+kubeadm init phase kubeconfig all --config kubeadm-config.yaml
+
+
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
