@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # МСК ЗК
-NAMESPACE="ervu-prod"
+NAMESPACE="prod"
 
 # Ввод имени пользователя
 read -p "Введите имя пользователя: " USERNAME
