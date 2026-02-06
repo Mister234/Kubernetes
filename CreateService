@@ -1,0 +1,5 @@
+# create a Service object and add the component
+kubectl expose deployment -n <namespace> <name> --type=LoadBalancer --name <name-service>
+
+# displaying a list of services
+kubectl get services
