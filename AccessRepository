@@ -1,0 +1,15 @@
+# Access to a private repository
+# Create a secret in the appropriate namespace
+kubectl create secret docker-registry <имя-секрета> \
+  --docker-server=<адрес-репозитория> \
+  --docker-username=<логин> \
+  --docker-password=<пароль-или-токен> \
+  --docker-email=<email>
+
+# Specify the secret in the manifest of your Deployment or Pod in the imagePullSecrets field
+spec:
+  containers:
+  - name: my-app
+    image: <repository-address>/my-image:latest
+  imagePullSecrets:
+  - name: <name-secret>
